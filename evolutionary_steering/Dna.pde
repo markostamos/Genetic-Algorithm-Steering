@@ -23,40 +23,25 @@ class Dna{
     forceChange = mutation_weight * maxforce;
     speedChange = mutation_weight * maxspeed;
   }
+  
+  float randomize_and_limit(float current,float change,float min_bound,float max_bound){
+    if (random(1) < mr) {
+      current  +=random(-change,change);
+      current = constrain(current, min_bound, max_bound);
+      }
+  }
+  
   // Mutate an Agent's DNA to some value close to the original
   void mutate(){
-    if (random(1) < mr) {
-      fPerception  +=random(-perceptionChange,perceptionChange);
-      fPerception = constrain(fPerception, 0, maxPerception);
-
-    }
-    if (random(1) < mr) {
-      pPerception += random(-perceptionChange,perceptionChange);
-      pPerception = constrain(pPerception, 0, maxPerception);
-
-    }
-    if (random(1) < mr) {
-      fForce += random(-forceChange,forceChange);
-      fForce = constrain(fForce, -maxforce, +maxforce);
-
-    }
-    if (random(1) < mr) {
-      pForce += random(-forceChange,forceChange);
-      pForce = constrain(pForce, -maxforce, +maxforce);
-
+    fPerception=randomize_and_limit(fPerception,perceptionChange,0,maxPerception);
+    pPerception=randomize_and_limit(pPerception,perceptionChange,0,maxPerception);
+    fForce=randomize_and_limit(fForce,forceChange,-maxforce,maxforce);
+    pForce=randomize_and_limit(pForce,forceChange,-maxforce,maxforce);
+    speed=randomize_and_limit(speed,speedChange,0.01,maxspeed);
+    desiredSeparation=randomize_and_limit(desiredSeparation,perceptionChange,0,maxPerception);
+    separationForce=randomize_and_limit(separationForce,forceChange,-maxforce,maxforce);
   }
-  if (random(1) < mr) {
-    speed += random(-speedChange,speedChange);
-    speed = constrain(speed, 0.01, maxspeed);
-}
-if (random(1) < mr) {
-  desiredSeparation += random(-perceptionChange,perceptionChange);
-  desiredSeparation = constrain(desiredSeparation, 0, maxPerception);
-}
-if (random(1) < mr) {
-  separationForce += random(-forceChange,forceChange);
-  separationForce = constrain(separationForce, -maxforce, +maxforce);
-}
+    
 }
   Dna getDNA(){
       Dna newDNA = new Dna();
