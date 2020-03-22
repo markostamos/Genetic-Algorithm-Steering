@@ -25,38 +25,20 @@ class Dna{
   }
   // Mutate an Agent's DNA to some value close to the original
   void mutate(){
-    if (random(1) < mr) {
-      fPerception  +=random(-perceptionChange,perceptionChange);
-      fPerception = constrain(fPerception, 0, maxPerception);
-
-    }
-    if (random(1) < mr) {
-      pPerception += random(-perceptionChange,perceptionChange);
-      pPerception = constrain(pPerception, 0, maxPerception);
-
-    }
-    if (random(1) < mr) {
-      fForce += random(-forceChange,forceChange);
-      fForce = constrain(fForce, -maxforce, +maxforce);
-
-    }
-    if (random(1) < mr) {
-      pForce += random(-forceChange,forceChange);
-      pForce = constrain(pForce, -maxforce, +maxforce);
-
+    fPerception = change_constrain(fPerception,perceptionChange,0,maxPerception);
+    pPerception = change_constrain(pPerception,perceptionChange,0,maxPerception);
+    fForce = change_constrain(fForce,forceChange,-maxforce,maxforce);
+    pForce = change_constrain(pForce,forceChange,-maxforce,maxforce);
+    speed = change_constrain(speed,speedChange,0.01,maxspeed);
+    desiredSeparation = change_constrain(desiredSeparation,perceptionChange,0,maxPerception);
+    separationForce = change_constrain(separationForce,forceChange,-maxforce,maxforce);
+}
+float change_constrain(float value, float change , float min , float max){
+    if (random(1)<mr){
+      value += change;
+      value = constrain(value,min,max);
   }
-  if (random(1) < mr) {
-    speed += random(-speedChange,speedChange);
-    speed = constrain(speed, 0.01, maxspeed);
-}
-if (random(1) < mr) {
-  desiredSeparation += random(-perceptionChange,perceptionChange);
-  desiredSeparation = constrain(desiredSeparation, 0, maxPerception);
-}
-if (random(1) < mr) {
-  separationForce += random(-forceChange,forceChange);
-  separationForce = constrain(separationForce, -maxforce, +maxforce);
-}
+  return value;
 }
   Dna getDNA(){
       Dna newDNA = new Dna();

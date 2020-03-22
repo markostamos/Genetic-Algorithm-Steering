@@ -32,7 +32,7 @@ class Population{
     float speeds = 0;
     float separations = 0;
     float separationForces = 0;
-    float popsize = population.size();
+
     for (Agent ag : population){
       pForces += ag.dna.pForce;
       fForces +=ag.dna.fForce;
@@ -42,36 +42,34 @@ class Population{
       separations+= ag.dna.desiredSeparation;
       separationForces += ag.dna.separationForce;
     }
-    pForces = pForces / popsize;
-    fForces = fForces / popsize;
-    pPerceptions = pPerceptions / popsize;
-    fPerceptions = fPerceptions / popsize;
-    speeds = speeds/popsize;
-    separations = separations/popsize;
-    separationForces = separationForces / popsize;
-    float pForcePercent = 100*(pForces/maxforce);
-    float fForcePercent = 100*(fForces/maxforce);
-    float pPerceptionPercent = 100*(pPerceptions/maxPerception);
-    float fPerceptionPercent = 100*(fPerceptions/maxPerception);
-    float speedPercent = 100*(speeds/maxspeed);
-    float separationPercent = 100*(separations/maxPerception);
-    float separationForcePercent = 100*(separationForces / maxforce);
+
+    float pForcePercent = getPercent(pForces,maxforce);
+    float fForcePercent = getPercent(fForces,maxforce);
+    float pPerceptionPercent = getPercent(pPerceptions,maxPerception);
+    float fPerceptionPercent = getPercent(fPerceptions,maxPerception);
+    float speedPercent = getPercent(speeds,maxspeed);
+    float separationPercent = getPercent(separations,maxPerception);
+    float separationForcePercent = getPercent(separationForces,maxforce);
+
     textSize(23);
     fill(255);
-
-    text("Agents Alive: "+ str(floor(popsize)),8,20);
+    text("Agents Alive: "+ str(floor(population.size())),8,20);
     text("Average speed: "+ str(floor(speedPercent)) +"%", 8,50);
-
     text("Attraction to: ",8,height-130);
     text("Food: " + str(floor(fForcePercent)) +"%", 8, height-90);
     text("Poison: "+ str(floor(pForcePercent)) +"%", 8, height-60);
     text("Other Agents: "+ str(floor(-separationForcePercent)) +"%", 8, height-30);
-
     text("Perception for: ",width-300,height-130);
     text("Food: "+ str(floor(fPerceptionPercent)) +"%" , width-300, height-90);
     text("Poison: "+ str(floor(pPerceptionPercent)) +"%", width-300, height-60);
     text("Other Agents: "+ str(floor(separationPercent)) +"%", width-300, height-30);
+  }
 
+  
+  float getPercent(float value , float maxVal){
+    value = value / population.size();
+    float percent = 100*(value/maxVal);
+    return percent;
   }
 
 }
